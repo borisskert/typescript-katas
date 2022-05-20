@@ -4,6 +4,13 @@
     "project": "./tsconfig.eslint.json"
   },
   "rules": {
-    "no-console": "error"
+    "no-console": "error",
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "only-multiline"
+    }]
   }
 }

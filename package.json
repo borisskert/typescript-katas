@@ -8,8 +8,8 @@
     "build": "tsc --build",
     "clean": "tsc --build --clean",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'",
-    "lint": "eslint **/*.ts && ts-standard",
-    "stylefix": "ts-standard --fix"
+    "lint": "eslint **/*.ts",
+    "stylefix": "eslint **/*.ts --fix"
   },
   "author": "borisskert",
   "license": "MIT",
@@ -20,7 +20,6 @@
     "eslint-config-standard-with-typescript": "^21.0.1",
     "mocha": "^10.0.0",
     "ts-node": "^10.7.0",
-    "ts-standard": "^11.0.0",
     "typescript": "4.2"
   }
 }

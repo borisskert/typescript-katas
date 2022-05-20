@@ -11,7 +11,7 @@ npm ci
 npm test
 ```
 
-## Run [Standard-JS'](https://standardjs.com/) stylecheck/linting
+## Run [ESLint](https://eslint.org/) stylecheck/linting
 
 ```shell
 npm ci
