@@ -8,7 +8,7 @@
     "build": "tsc --build",
     "clean": "tsc --build --clean",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'",
-    "lint": "ts-standard",
+    "lint": "eslint **/*.ts && ts-standard",
     "stylefix": "ts-standard --fix"
   },
   "author": "borisskert",
