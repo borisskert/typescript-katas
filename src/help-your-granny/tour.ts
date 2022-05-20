@@ -23,7 +23,7 @@ export class G964 {
 class Dictionary<V> {
   private readonly dictionary: { [key: string]: V }
 
-  private constructor (dictionary) {
+  private constructor (dictionary: { [key: string]: V }) {
     this.dictionary = dictionary
   }
 
@@ -38,7 +38,7 @@ class Dictionary<V> {
 
       return {
         ...obj,
-        [key]: value
+        [key]: value,
       }
     }, {})
 
@@ -50,7 +50,8 @@ class Dictionary<V> {
       .toPairs(a => a.toString())
       .toArray()
 
-    const dictionary = Dictionary.toDictionary(array)
+    // @ts-expect-error
+    const dictionary: { [key: string]: V } = Dictionary.toDictionary(array)
 
     return new Dictionary(dictionary)
   }
@@ -59,7 +60,7 @@ class Dictionary<V> {
     return array.reduce((obj: {}, { first, last }) => {
       return {
         ...obj,
-        [first]: last
+        [first]: last,
       }
     }, {})
   }
@@ -79,6 +80,7 @@ class List<T> {
       .map(([first, last]) => ({ first, last }))
   }
 
+  // @ts-expect-error
   public toPairs<F, L> (toFirst: (T) => F = (a) => a, toLast: (T) => L = (a) => a): List<Pair<F, L>> {
     return this.divvy(2, 2)
       .map(([first, last]) => ({ first: toFirst(first), last: toLast(last) }))
