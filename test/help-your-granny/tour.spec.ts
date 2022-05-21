@@ -1,7 +1,7 @@
 import solution = require('../../src/help-your-granny/tour')
 import { assert } from 'chai'
 
-function dotest (friends, fTowns, distTable, expected): void {
+function dotest (friends: string[], fTowns: string[][], distTable: Array<string | number>, expected: number): void {
   assert.equal(solution.G964.tour(friends, fTowns, distTable), expected)
 }
 
