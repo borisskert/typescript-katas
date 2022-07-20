@@ -1,21 +1,19 @@
-/**
+/*
  * https://www.codewars.com/kata/5547cc7dcad755e480000004/train/typescript
  */
+import { intRange } from './stream'
+
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class G964 {
   public static removeNb (n: number): number[][] {
     const sumN: number = gauss(n)
-    let numbers: number[][] = []
 
-    for (let a: number = 1; a < n; a += 1) {
-      const b = Math.floor((sumN - a) / a)
-
-      if (a * b === sumN - a - b) {
-        numbers = [...numbers, [a, b], [b, a]]
-      }
-    }
-
-    return numbers.sort(comparingFirst)
+    return intRange(1, n - 1)
+      .map((a) => ({ a, b: Math.floor((sumN - a) / a) }))
+      .filter(({ a, b }) => a * b === sumN - a - b)
+      .flatMap(({ a, b }) => ([[a, b], [b, a]]))
+      .sorted(comparingFirst)
+      .toArray()
   }
 }
 
