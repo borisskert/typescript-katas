@@ -21,9 +21,9 @@ export class G964 {
 }
 
 class Dictionary<V> {
-  private readonly dictionary: { [key: string]: V }
+  private readonly dictionary: Record<string, V>
 
-  private constructor (dictionary: { [key: string]: V }) {
+  private constructor (dictionary: Record<string, V>) {
     this.dictionary = dictionary
   }
 
@@ -32,6 +32,7 @@ class Dictionary<V> {
   }
 
   public static fromTwoDimArray<V> (array: string[][]): Dictionary<V> {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     const dictionary = array.reduce((obj: {}, pair: string[]) => {
       const key = pair[0]
       const value = pair[1]
@@ -47,16 +48,20 @@ class Dictionary<V> {
 
   public static fromOneDimArray<V> (distTable: Array<string | number>): Dictionary<V> {
     const array = List.from(distTable)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access
       .toPairs(a => a.toString())
       .toArray()
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    const dictionary: { [key: string]: V } = Dictionary.toDictionary(array)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const dictionary: Record<string, V> = Dictionary.toDictionary(array)
 
     return new Dictionary(dictionary)
   }
 
-  private static toDictionary<T> (array: Array<Pair<string, T>>): { [key: string]: number } {
+  private static toDictionary<T> (array: Array<Pair<string, T>>): Record<string, number> {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     return array.reduce((obj: {}, { first, last }) => {
       return {
         ...obj,
@@ -80,7 +85,9 @@ class List<T> {
       .map(([first, last]) => ({ first, last }))
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/ban-ts-comment
   // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   public toPairs<F, L> (toFirst: (T) => F = (a) => a, toLast: (T) => L = (a) => a): List<Pair<F, L>> {
     return this.divvy(2, 2)
       .map(([first, last]) => ({ first: toFirst(first), last: toLast(last) }))
@@ -94,12 +101,12 @@ class List<T> {
     return this.items[this.items.length - 1]
   }
 
-  public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): List<U> {
+  public map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: never): List<U> {
     const mapped = this.items.map(callbackfn, thisArg)
     return List.from(mapped)
   }
 
-  public mapNotNull<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): List<U> {
+  public mapNotNull<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: never): List<U> {
     const mapped = this.items.map(callbackfn, thisArg)
       .filter(item => item !== null && item !== undefined)
     return List.from(mapped)

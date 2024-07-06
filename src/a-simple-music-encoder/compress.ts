@@ -46,13 +46,14 @@ const compressAll = (music: List<number>, compressed: List<Compressible> = List.
 }
 
 const compressToOne = (music: List<number>): Compressible => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return [
     Identical.tryCreateFrom3,
     SameInterval.tryCreateFrom,
     Identical.tryCreateFrom2,
     Simple.createFrom,
   ].map(tryCreateFrom => tryCreateFrom(music))
-    .filter(x => x !== undefined)[0] as Compressible
+    .filter(x => x !== undefined)[0]!
 }
 
 interface Compressible {
@@ -124,6 +125,7 @@ class SameInterval {
   }
 
   append (another: number): Compressible {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (this.interval === undefined) {
       const item = this.items.head()
       return new SameInterval(this.items.appendOne(another), another - item)
@@ -133,6 +135,7 @@ class SameInterval {
   }
 
   accept (another: number): boolean {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (this.interval === undefined) {
       const item = this.items.head()
       return Math.abs(another - item) > 0
@@ -243,7 +246,7 @@ class List<T> {
     return new List<T>(this.items.slice(n))
   }
 
-  map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): List<U> {
+  map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: never): List<U> {
     const mapped = this.items.map(callbackfn, thisArg)
     return List.from(mapped)
   }

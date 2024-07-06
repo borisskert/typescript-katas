@@ -20,9 +20,7 @@ export const stockList = (listOfArt: string[], listOfCat: string[]): string => {
     .join(' - ')
 }
 
-interface Stock {
-  [key: string]: number
-}
+type Stock = Record<string, number>;
 
 function pushInto (stock: Stock, item: StockItem): Stock {
   const stockQuantity = stock[item.category] ?? 0
@@ -41,7 +39,9 @@ interface StockItem {
 function toStockItem (input: string): StockItem {
   const [, parsedCategory, parsedQuantity] = /([A-Z])[A-Z]+ ([0-9]+)/.exec(input) ?? []
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const category = parsedCategory ?? ''
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const quantity = Number.parseInt(parsedQuantity ?? '0')
 
   return { category, quantity }

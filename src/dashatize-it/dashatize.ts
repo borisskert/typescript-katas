@@ -33,6 +33,7 @@ function splitBy<T> (array: T[], predicate: (a: T, b: T) => boolean): T[][] {
     if (i === 0 || !predicate(array[i - 1], value)) {
       let group = groups[groups.length - 1]
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (group === undefined) {
         group = []
         groups.push(group)

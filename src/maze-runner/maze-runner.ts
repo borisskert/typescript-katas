@@ -51,9 +51,11 @@ class Maze {
 
   at (position: Position): Field {
     const line: Field[] | undefined = this.grid[position.y]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const field = line === undefined ? Field.WALL : line[position.x]
 
-    return field === undefined ? Field.WALL : field
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    return field ?? Field.WALL
   }
 
   static from (grid: Field[][]): Maze {
