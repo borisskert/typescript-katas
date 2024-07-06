@@ -29,16 +29,26 @@ function sameInterval (compressed: string): Inflatable {
   const regexp = /^(-?\d+)-(-?\d+)(\/(\d+))?$/
   const DEFAULT_STEP = 1
 
-  const groups = regexp.exec(compressed) as string[]
+  const groups = regexp.exec(compressed) as (string[] | null)
+
+  if (groups === null) {
+    return {
+      accept: () => false,
+      inflate: () => {
+        throw Error('Cannot handle')
+      },
+    }
+  }
 
   return {
-    accept: () => groups !== null,
+    accept: () => true,
     inflate: () => {
       const [, first, second, , third] = groups
       const begin = Number.parseInt(first)
       const end = Number.parseInt(second)
       const sign = signum(end - begin)
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const step = (third !== undefined ? Number.parseInt(third) : DEFAULT_STEP) * sign
 
       return range(
@@ -55,6 +65,7 @@ function identical (compressed: string): Inflatable {
   const groups = regexp.exec(compressed) as string[]
 
   return {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     accept: () => groups !== null,
     inflate: () => {
       const [, first, second] = groups
@@ -72,6 +83,7 @@ function simple (compressed: string): Inflatable {
   const groups = regexp.exec(compressed) as string[]
 
   return {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     accept: () => groups !== null,
     inflate: () => {
       const [, first] = groups

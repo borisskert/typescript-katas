@@ -49,7 +49,7 @@ class Directions {
 }
 
 class Direction {
-  private static readonly opposites: { [key: string]: string } = {
+  private static readonly opposites: Record<string, string> = {
     NORTH: 'SOUTH',
     SOUTH: 'NORTH',
     EAST: 'WEST',
